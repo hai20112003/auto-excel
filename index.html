@@ -6,11 +6,79 @@
     <title>Excel Automation</title>
     <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
   </head>
+  <style>
+    /* General styles for body */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .form {
+
+      
+    }
+    /* Style for the label */
+    label[for="monthYearInput"] {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    /* Style for the month input */
+    #monthYearInput {
+      display: block;
+      margin-bottom: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+      background-color: #fff;
+      color: #333;
+    }
+
+    /* Style for the file input */
+    #upload {
+      display: block;
+      margin-bottom: 20px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+      background-color: #fff;
+      color: #333;
+    }
+
+    /* Style for the save button */
+    #save {
+      display: inline-block;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      font-weight: bold;
+      color: #fff;
+      background-color: #007bff;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    #save:hover {
+      background-color: #0056b3;
+    }
+  </style>
   <body>
-    <label for="monthYearInput">Chọn tháng và năm:</label>
-    <input type="month" id="monthYearInput" />
-    <input type="file" id="upload" />
-    <button id="save">Save Updated File</button>
+    <div class="form">
+      <label for="monthYearInput">Chọn tháng và năm:</label>
+      <input type="month" id="monthYearInput" />
+      <input type="file" id="upload" />
+      <button id="save">Save Updated File</button>
+    </div>
 
     <script>
       let workbook;
