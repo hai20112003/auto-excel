@@ -17,8 +17,11 @@
       align-items: center;
     }
     .form {
-
-      
+      margin-top: 200px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
     /* Style for the label */
     label[for="monthYearInput"] {
@@ -170,7 +173,6 @@
           "",
           ""
         );
-
         dataNew[5].push(
           "NT",
           "CT",
@@ -200,12 +202,13 @@
           "CT",
           "Le"
         );
+        const lengthCount = dataNew[5].length - 1;
 
         merges.push(
-          { s: { r: 0, c: 0 }, e: { r: 0, c: 100 } },
-          { s: { r: 1, c: 0 }, e: { r: 1, c: 100 } },
-          { s: { r: 2, c: 0 }, e: { r: 2, c: 100 } },
-          { s: { r: 3, c: 0 }, e: { r: 3, c: 100 } },
+          { s: { r: 0, c: 0 }, e: { r: 0, c: lengthCount } },
+          { s: { r: 1, c: 0 }, e: { r: 1, c: lengthCount } },
+          { s: { r: 2, c: 0 }, e: { r: 2, c: lengthCount } },
+          { s: { r: 3, c: 0 }, e: { r: 3, c: lengthCount } },
           { s: { r: 4, c: 0 }, e: { r: 5, c: 0 } },
           { s: { r: 4, c: 1 }, e: { r: 5, c: 1 } },
           {
@@ -361,9 +364,13 @@
         dataTo.forEach((teamName) => {
           let check = false;
           const teamData = findTeam(teamName, sheetData);
-          console.log(`${teamName} data:`, teamData);
           const startRow = dataNew.length;
           dataNew.push([teamName]);
+          merges.push({
+            s: { r: dataNew.length - 1, c: 0 },
+            e: { r: dataNew.length - 1, c: lengthCount },
+          });
+          
           teamData.forEach((item) => {
             const endRow = dataNew.length - 1;
             if (
@@ -524,7 +531,23 @@
           });
         });
 
-        console.log(dataNew);
+        for (let merge of merges) {
+          const range = XLSX.utils.encode_range(merge.s, merge.e);
+          worksheet["!merges"].push(merge);
+
+          for (let row = merge.s.r; row <= merge.e.r; row++) {
+            for (let col = merge.s.c; col <= merge.e.c; col++) {
+              const cellAddress = { r: row, c: col };
+              const cellRef = XLSX.utils.encode_cell(cellAddress);
+              const cell = worksheet[cellRef];
+              if (!cell) continue;
+
+              cell.s = {
+                alignment: { horizontal: "center", vertical: "center" },
+              };
+            }
+          }
+        }
         const newWorksheet = XLSX.utils.aoa_to_sheet(dataNew);
 
         newWorksheet["!merges"] = merges;
