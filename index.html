@@ -295,17 +295,17 @@
         }
 
         function mapFunc(x) {
-          if (x === "K1") {
+          if (x === "k1" || x === "K1" ) {
             return {
               time1: randomTime("05:50", "06:03"),
               time2: randomTime("13:50", "14:00"),
             };
-          } else if (x === "K2") {
+          } else if (x === "k2" || x === "K2" ) {
             return {
               time1: randomTime("13:50", "14:00"),
               time2: randomTime("22:00", "22:03"),
             };
-          } else if (x === "K3") {
+          } else if (x === "k3" || x === "K3") {
             return {
               time1: randomTime("21:50", "22:03"),
               time2: randomTime("06:00", "06:10"),
@@ -318,22 +318,22 @@
         }
 
         function mapFuncCatDan(x) {
-          if (x === "K1") {
+          if (x === "k1" || x === "K1") {
             return {
               time1: randomTime("04:50", "05:03"),
               time2: randomTime("14:00", "14:10"),
             };
-          } else if (x === "k11") {
+          } else if (x === "k11" || x === "K11") {
             return {
               time1: randomTime("06:58", "07:00"),
               time2: randomTime("14:00", "14:10"),
             };
-          } else if (x === "K2") {
+          } else if (x === "k2" || x === "K2") {
             return {
               time1: randomTime("13:50", "14:00"),
               time2: randomTime("23:00", "23:10"),
             };
-          } else if (x === "k21") {
+          } else if (x === "k21" || x === "K21") {
             return {
               time1: randomTime("13:50", "14:00"),
               time2: randomTime("21:00", "21:03"),
