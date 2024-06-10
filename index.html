@@ -400,7 +400,7 @@
                     dataNew[dataNew.length - 2].push(time.time1);
                     dataNew[dataNew.length - 2].push(time.time2);
                     dataNew[dataNew.length - 1].push(Number(8));
-                    dataNew[dataNew.length - 1].push(1);
+                    dataNew[dataNew.length - 1].push("");
                     if (check) {
                       dataNew[dataNew.length - 2].push("");
                       dataNew[dataNew.length - 2].push("");
@@ -556,6 +556,7 @@
       }
       function applyBorders() {
         const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+        console.log(worksheet);
         const range = XLSX.utils.decode_range(worksheet['!ref']);
         const borderStyle = {
           top: { style: 'thin', color: { rgb: '000000' } },
@@ -565,6 +566,7 @@
         };
 
         for (let row = range.s.r; row <= range.e.r; row++) {
+          console.log(1);
           for (let col = range.s.c; col <= range.e.c; col++) {
             const cellAddress = XLSX.utils.encode_cell({ r: row, c: col });
             if (!worksheet[cellAddress]) {
@@ -574,6 +576,7 @@
               worksheet[cellAddress].s = {};
             }
             worksheet[cellAddress].s.border = borderStyle;
+            console.log(worksheet[cellAddress] );
           }
         }
       }
