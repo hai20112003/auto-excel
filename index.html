@@ -111,7 +111,6 @@
         const dataToCapDuong = [];
         const worksheet = workbook.Sheets[workbook.SheetNames[0]];
         const sheetData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-        console.log(sheetData);
         const monthYear = document.getElementById("monthYearInput").value;
         const [year, month] = monthYear.split("-");
         const startDay = `01/${month}/${year}`;
@@ -295,12 +294,12 @@
         }
 
         function mapFunc(x) {
-          if (x === "k1" || x === "K1" ) {
+          if (x === "k1" || x === "K1") {
             return {
               time1: randomTime("05:50", "06:03"),
               time2: randomTime("13:50", "14:00"),
             };
-          } else if (x === "k2" || x === "K2" ) {
+          } else if (x === "k2" || x === "K2") {
             return {
               time1: randomTime("13:50", "14:00"),
               time2: randomTime("22:00", "22:03"),
@@ -371,9 +370,10 @@
             s: { r: dataNew.length - 1, c: 0 },
             e: { r: dataNew.length - 1, c: lengthCount },
           });
-          
+
           teamData.forEach((item) => {
             const endRow = dataNew.length - 1;
+            check = false;
             if (
               teamName === "Tổ Thổi 1" ||
               teamName === "Tổ Thổi 2" ||
@@ -399,8 +399,18 @@
                   } else if (time.time1 && time.time2) {
                     dataNew[dataNew.length - 2].push(time.time1);
                     dataNew[dataNew.length - 2].push(time.time2);
-                    dataNew[dataNew.length - 1].push(Number(8));
+                    if (
+                      item[i] === "k11" ||
+                      item[i] === "K11" ||
+                      item[i] === "K21" ||
+                      item[i] === "k21"
+                    ) {
+                      dataNew[dataNew.length - 1].push(Number(7));
+                    } else {
+                      dataNew[dataNew.length - 1].push(Number(8));
+                    }
                     dataNew[dataNew.length - 1].push("");
+                    console.log(check);
                     if (check) {
                       dataNew[dataNew.length - 2].push("");
                       dataNew[dataNew.length - 2].push("");
@@ -446,15 +456,24 @@
               for (let i = 2; i < item.length; i++) {
                 if (typeof item[i] === "string" || !item[i]) {
                   const time = mapFuncCatDan(item[i]);
-                  console.log(time);
                   if (!time) {
                     check = true;
                   } else if (time.time1 && time.time2) {
-                    console.log(time);
+                    console.log(check);
                     dataNew[dataNew.length - 2].push(time.time1);
                     dataNew[dataNew.length - 2].push(time.time2);
-                    dataNew[dataNew.length - 1].push(Number(8));
-                    dataNew[dataNew.length - 1].push(1);
+                    if (
+                      item[i] === "k11" ||
+                      item[i] === "K11" ||
+                      item[i] === "K21" ||
+                      item[i] === "k21"
+                    ) {
+                      dataNew[dataNew.length - 1].push(Number(7));
+                      dataNew[dataNew.length - 1].push("");
+                    } else {
+                      dataNew[dataNew.length - 1].push(Number(8));
+                      dataNew[dataNew.length - 1].push(1);
+                    }
                     if (check) {
                       dataNew[dataNew.length - 2].push("");
                       dataNew[dataNew.length - 2].push("");
@@ -495,15 +514,17 @@
               for (let i = 2; i < item.length; i++) {
                 if (typeof item[i] === "string" || !item[i]) {
                   const time = mapFuncHC(item[i]);
-                  console.log(time);
                   if (!time) {
                     check = true;
                   } else if (time.time1 && time.time2) {
-                    console.log(time);
+                    console.log(check);
                     dataNew[dataNew.length - 2].push(time.time1);
                     dataNew[dataNew.length - 2].push(time.time2);
-                    dataNew[dataNew.length - 1].push(Number(8));
-                    dataNew[dataNew.length - 1].push("");
+                    if (item[i] === "HC1") {
+                      dataNew[dataNew.length - 1].push(Number(7));
+                    } else {
+                      dataNew[dataNew.length - 1].push(Number(8));
+                    }
                     if (check) {
                       dataNew[dataNew.length - 2].push("");
                       dataNew[dataNew.length - 2].push("");
@@ -556,17 +577,15 @@
       }
       function applyBorders() {
         const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-        console.log(worksheet);
-        const range = XLSX.utils.decode_range(worksheet['!ref']);
+        const range = XLSX.utils.decode_range(worksheet["!ref"]);
         const borderStyle = {
-          top: { style: 'thin', color: { rgb: '000000' } },
-          bottom: { style: 'thin', color: { rgb: '000000' } },
-          left: { style: 'thin', color: { rgb: '000000' } },
-          right: { style: 'thin', color: { rgb: '000000' } },
+          top: { style: "thin", color: { rgb: "000000" } },
+          bottom: { style: "thin", color: { rgb: "000000" } },
+          left: { style: "thin", color: { rgb: "000000" } },
+          right: { style: "thin", color: { rgb: "000000" } },
         };
 
         for (let row = range.s.r; row <= range.e.r; row++) {
-          console.log(1);
           for (let col = range.s.c; col <= range.e.c; col++) {
             const cellAddress = XLSX.utils.encode_cell({ r: row, c: col });
             if (!worksheet[cellAddress]) {
@@ -576,7 +595,6 @@
               worksheet[cellAddress].s = {};
             }
             worksheet[cellAddress].s.border = borderStyle;
-            console.log(worksheet[cellAddress] );
           }
         }
       }
