@@ -102,6 +102,7 @@
           alert("Please upload a file first.");
           return;
         }
+        applyBorders();
         saveWorkbook();
       });
 
@@ -322,7 +323,7 @@
               time1: randomTime("04:50", "05:03"),
               time2: randomTime("14:00", "14:10"),
             };
-          } else if (x === "K11") {
+          } else if (x === "k11") {
             return {
               time1: randomTime("06:58", "07:00"),
               time2: randomTime("14:00", "14:10"),
@@ -332,7 +333,7 @@
               time1: randomTime("13:50", "14:00"),
               time2: randomTime("23:00", "23:10"),
             };
-          } else if (x === "K21") {
+          } else if (x === "k21") {
             return {
               time1: randomTime("13:50", "14:00"),
               time2: randomTime("21:00", "21:03"),
@@ -553,7 +554,29 @@
         newWorksheet["!merges"] = merges;
         workbook.Sheets[workbook.SheetNames[0]] = newWorksheet;
       }
+      function applyBorders() {
+        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+        const range = XLSX.utils.decode_range(worksheet['!ref']);
+        const borderStyle = {
+          top: { style: 'thin', color: { rgb: '000000' } },
+          bottom: { style: 'thin', color: { rgb: '000000' } },
+          left: { style: 'thin', color: { rgb: '000000' } },
+          right: { style: 'thin', color: { rgb: '000000' } },
+        };
 
+        for (let row = range.s.r; row <= range.e.r; row++) {
+          for (let col = range.s.c; col <= range.e.c; col++) {
+            const cellAddress = XLSX.utils.encode_cell({ r: row, c: col });
+            if (!worksheet[cellAddress]) {
+              worksheet[cellAddress] = {};
+            }
+            if (!worksheet[cellAddress].s) {
+              worksheet[cellAddress].s = {};
+            }
+            worksheet[cellAddress].s.border = borderStyle;
+          }
+        }
+      }
       function saveWorkbook() {
         const wopts = { bookType: "xlsx", bookSST: false, type: "binary" };
         const wbout = XLSX.write(workbook, wopts);
